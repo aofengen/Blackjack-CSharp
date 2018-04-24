@@ -8,28 +8,28 @@ namespace Blackjack_CSharp
 {
     class Card
     {
-        public String suit { get; set; }
-        public String value { get; set; }
+        public String Suit { get; set; }
+        public String Value { get; set; }
 
         public Card(string suit, string value)
         {
-            this.value = value;
-            this.suit = suit;
+            this.Value = value;
+            this.Suit = suit;
         }
 
         public override string ToString()
         {
-            return this.suit.ToString() + "-" + this.value.ToString();
+            return this.Suit.ToString() + "-" + this.Value.ToString();
         }
 
         public string GetValue()
         {
-            return this.value;
+            return this.Value;
         }
 
         public string GetSuit()
         {
-            return this.suit;
+            return this.Suit;
         }
     }
 }

@@ -8,15 +8,36 @@ namespace Blackjack_CSharp
 {
     class Deck
     {
-        public List<Card> cards { get; set; }
+        public List<Card> Cards { get; set; }
+        public string HandWinner { get; set; }
+        public bool Blackjack { get; set; }
+        public bool DoubleDown { get; set; }
+        public bool Split { get; set; }
+        public bool SplitAces { get; set; }
+        public bool NumHands { get; set; }
+        public bool Bust { get; set; }
+        public bool Checked { get; set; }
+        public bool Stand { get; set; }
+        public double Bet { get; set; }
+
         private static string[] suits = { "CLUB", "DIAMOND", "HEART", "SPADE" };
         private static string[] values = {"ACE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "JACK", "QUEEN", "KING"};
 
         public Deck()
         {
             //create a new hand
-            this.cards = new List<Card>();
-        }
+            this.Cards = new List<Card>();
+            this.HandWinner = "";
+            this.Blackjack = false;
+            this.DoubleDown = false;
+            this.Split = false;
+            this.SplitAces = false;
+            this.NumHands = false;
+            this.Bust = false;
+            this.Checked = false;
+            this.Stand = false;
+            this.Bet = 0.0;
+            }
 
         public void CreateFullDeck()
         {
@@ -26,7 +47,7 @@ namespace Blackjack_CSharp
                 {
                     foreach(string value in values)
                     {
-                        this.cards.Add(new Card(suit, value));
+                        this.Cards.Add(new Card(suit, value));
                     }
                 }
             }
@@ -41,17 +62,17 @@ namespace Blackjack_CSharp
 
             for(int i = 0; i < deckSize; i++)
             {
-                index = random.Next(0, this.cards.Count - 1);
-                tmpDeck.Add(this.cards[index]);
-                this.cards.Remove(this.cards[index]);
+                index = random.Next(0, this.Cards.Count - 1);
+                tmpDeck.Add(this.Cards[index]);
+                this.Cards.Remove(this.Cards[index]);
             }
-            this.cards = tmpDeck;
+            this.Cards = tmpDeck;
         }
 
         public override String ToString()
         {
             String cardListOutput = "";
-            foreach (Card card in this.cards)
+            foreach (Card card in this.Cards)
             {
                 cardListOutput += "\n" + card.ToString();
             }
@@ -60,37 +81,57 @@ namespace Blackjack_CSharp
 
         public void RemoveCard(int i)
         {
-            this.cards.Remove(this.cards[i]);
+            this.Cards.Remove(this.Cards[i]);
+        }
+
+        public bool CheckBlackjack()
+        {
+            bool blackjack;
+            String x = this.GetCard(0).GetValue().ToString();
+            String y = this.GetCard(1).GetValue().ToString();
+            if (x.Equals("ACE") && (y.Equals("TEN") || y.Equals("JACK") || y.Equals("QUEEN") || y.Equals("KING")))
+            {
+                blackjack = true;
+            }
+            else if (y.Equals("ACE") && (x.Equals("TEN") || x.Equals("JACK") || x.Equals("QUEEN") || x.Equals("KING")))
+            {
+                blackjack = true;
+            }
+            else
+            {
+                blackjack = false;
+            }
+            return blackjack;
         }
 
         public Card GetCard(int i)
         {
-            return this.cards[i];
+            return this.Cards[i];
         }
 
         public void AddCard(Card card)
         {
-            this.cards.Add(card);
+            this.Cards.Add(card);
         }
 
         public void Draw(Deck comingFrom)
         {
             //get the first thing in the deck
-            this.cards.Add(comingFrom.GetCard(0));
+            this.Cards.Add(comingFrom.GetCard(0));
             //Remove card from deck
             comingFrom.RemoveCard(0);
         }
 
         public int DeckSize()
         {
-            return this.cards.Count;
+            return this.Cards.Count;
         }
 
         public int CardsValue()
         {
             int totalValue = 0;
             int aces = 0;
-            foreach(Card aCard in this.cards)
+            foreach(Card aCard in this.Cards)
             {
                 switch (aCard.GetValue())
                 {
@@ -128,7 +169,7 @@ namespace Blackjack_CSharp
         {
             int thisDeckSize = this.DeckSize();
 
-            //put cards in moveTo deck
+            //put Cards in moveTo deck
             for (int i = 0; i < thisDeckSize; i++)
             {
                 moveTo.AddCard(this.GetCard(i));
@@ -137,6 +178,20 @@ namespace Blackjack_CSharp
             {
                 this.RemoveCard(0);
             }
+        }
+
+        public void ResetDeck()
+        {
+            this.HandWinner = "";
+            this.Blackjack = false;
+            this.DoubleDown = false;
+            this.Split = false;
+            this.SplitAces = false;
+            this.NumHands = false;
+            this.Bust = false;
+            this.Checked = false;
+            this.Stand = false;
+            this.Bet = 0.0;
         }
     }
 }
