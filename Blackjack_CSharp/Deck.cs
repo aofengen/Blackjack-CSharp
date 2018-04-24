@@ -48,8 +48,7 @@ namespace Blackjack_CSharp
             this.cards = tmpDeck;
         }
 
-        override
-        public String ToString()
+        public override String ToString()
         {
             String cardListOutput = "";
             foreach (Card card in this.cards)

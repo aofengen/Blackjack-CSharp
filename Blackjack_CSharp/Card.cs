@@ -17,8 +17,7 @@ namespace Blackjack_CSharp
             this.suit = suit;
         }
 
-        override
-        public string ToString()
+        public override string ToString()
         {
             return this.suit.ToString() + "-" + this.value.ToString();
         }
